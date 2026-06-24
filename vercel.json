@@ -2,12 +2,12 @@
   "version": 2,
   "builds": [
     { "src": "api/**/*.js", "use": "@vercel/node" },
-    { "src": "index.html", "use": "@vercel/static" }
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "public/firebase-messaging-sw.js", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/api/book",       "dest": "/api/book.js" },
-    { "src": "/api/otp-send",   "dest": "/api/otp-send.js" },
-    { "src": "/api/otp-verify", "dest": "/api/otp-verify.js" },
-    { "src": "/(.*)",           "dest": "/index.html" }
+    { "src": "/api/book", "dest": "/api/book.js" },
+    { "src": "/firebase-messaging-sw.js", "dest": "/public/firebase-messaging-sw.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

@@ -834,6 +834,12 @@
       .partner-logo { padding: 0 10px; }
       .partner-logo span { font-size: .9rem; }
     }
+
+    /* ── Toast notification animation ──────────────── */
+    @keyframes slideIn {
+      from { transform: translateX(100px); opacity: 0; }
+      to   { transform: translateX(0);     opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -859,6 +865,13 @@
     </div>
   </div>
 </nav>
+
+<!-- ── Admin Notification Bar ────────────────────────────── -->
+<div id="adminNotifBar" style="display:none;background:var(--primary);color:white;text-align:center;padding:12px;font-size:.85rem;font-family:var(--font-body)">
+  🔔 Admin: Enable notifications to receive booking alerts
+  <button id="enableNotifBtn" style="margin-left:12px;background:white;color:var(--primary);border:none;border-radius:999px;padding:6px 18px;font-size:.8rem;font-weight:600;cursor:pointer">Enable Now</button>
+  <span id="notifStatus" style="margin-left:12px;font-size:.8rem"></span>
+</div>
 
 <!-- ── HERO ──────────────────────────────────────────── -->
 <section id="hero">
@@ -1588,114 +1601,6 @@ document.querySelectorAll('.faq-question').forEach(q => {
   q.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
 });
 
-/* ── Booking form + OTP ───────────────────────── */
-let phoneVerified = false;
-let otpCountdown  = null;
-
-function showOtpMsg(text, isError) {
-  const el = document.getElementById('otpMsg');
-  el.style.color   = isError ? '#c0392b' : 'var(--primary)';
-  el.textContent   = text;
-  el.style.display = 'block';
-}
-
-function startResendTimer(seconds) {
-  const timerEl = document.getElementById('otpTimer');
-  const sendBtn = document.getElementById('sendOtpBtn');
-  clearInterval(otpCountdown);
-  let remaining = seconds;
-  sendBtn.disabled = true;
-  timerEl.style.display = 'block';
-  otpCountdown = setInterval(() => {
-    timerEl.textContent = `Resend OTP in ${remaining}s`;
-    remaining--;
-    if (remaining < 0) {
-      clearInterval(otpCountdown);
-      sendBtn.disabled = false;
-      timerEl.textContent = 'Didn\'t receive it? Tap Send OTP again.';
-    }
-  }, 1000);
-}
-
-// ── Send OTP ──────────────────────────────────────────────────
-document.getElementById('sendOtpBtn').addEventListener('click', async () => {
-  const phone = document.getElementById('fphone').value.trim();
-  const btn   = document.getElementById('sendOtpBtn');
-
-  if (!phone) {
-    showOtpMsg('Please enter your phone number first.', true);
-    document.getElementById('otpRow').style.display = 'block';
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-
-  try {
-    const res  = await fetch('/api/otp-send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone })
-    });
-    const data = await res.json();
-
-    document.getElementById('otpRow').style.display = 'block';
-
-    if (res.ok && data.success) {
-      showOtpMsg(`✓ OTP sent to ${phone}`, false);
-      startResendTimer(60);
-    } else {
-      showOtpMsg(data.error || 'Failed to send OTP. Check the number and try again.', true);
-      btn.disabled = false;
-    }
-  } catch {
-    showOtpMsg('Network error. Please try again.', true);
-    btn.disabled = false;
-  }
-
-  btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send OTP';
-});
-
-// ── Verify OTP ─────────────────────────────────────────────────
-document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
-  const phone = document.getElementById('fphone').value.trim();
-  const code  = document.getElementById('fotpCode').value.trim();
-  const btn   = document.getElementById('verifyOtpBtn');
-
-  if (!code || code.length < 4) { showOtpMsg('Enter the OTP code.', true); return; }
-
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-
-  try {
-    const res  = await fetch('/api/otp-verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone, code })
-    });
-    const data = await res.json();
-
-    if (res.ok && data.success) {
-      phoneVerified = true;
-      showOtpMsg('✓ Phone verified!', false);
-      // Lock the phone field and OTP controls
-      document.getElementById('fphone').readOnly = true;
-      document.getElementById('fotpCode').readOnly = true;
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> Verified';
-      document.getElementById('sendOtpBtn').disabled = true;
-      clearInterval(otpCountdown);
-      document.getElementById('otpTimer').style.display = 'none';
-    } else {
-      showOtpMsg(data.error || 'Invalid OTP. Please try again.', true);
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
-    }
-  } catch {
-    showOtpMsg('Network error. Please try again.', true);
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
-  }
-});
 
 // ── Submit appointment ─────────────────────────────────────────
 document.getElementById('bookingForm').addEventListener('submit', async function(e) {
@@ -1717,7 +1622,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     return;
   }
 
-  if (!phoneVerified) {
+  if (!window.phoneVerified) {
     msg.style.color = '#c0392b';
     msg.textContent = 'Please verify your phone number with OTP before booking.';
     msg.style.display = 'block';
@@ -1741,10 +1646,14 @@ document.getElementById('bookingForm').addEventListener('submit', async function
       msg.style.color = 'var(--primary)';
       msg.textContent = '✓ Thank you! Your appointment request has been received. We will confirm within 24 hours.';
       this.reset();
-      phoneVerified = false;
+      window.phoneVerified = false;
       document.getElementById('otpRow').style.display = 'none';
       document.getElementById('otpMsg').style.display  = 'none';
+      document.getElementById('fotpCode').readOnly = false;
       document.getElementById('fphone').readOnly = false;
+      document.getElementById('sendOtpBtn').disabled = false;
+      document.getElementById('sendOtpBtn').innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send OTP';
+      document.getElementById('verifyOtpBtn').innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
     } else {
       msg.style.color = '#c0392b';
       msg.textContent = data.error || 'Something went wrong. Please try again or call us directly.';
@@ -1769,5 +1678,259 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   });
 });
 </script>
-</body>
-</html>
+
+<!-- ── Firebase Phone Authentication + Cloud Messaging ──── -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js';
+
+// Firebase configuration — replace placeholders with your Firebase project credentials
+const firebaseConfig = {
+  apiKey: "AIzaSyC1RHZ0r3zUEFI9al1oC-5vMRRCPvGkvqg",
+  authDomain: "toulang-clinic-ae239.firebaseapp.com",
+  projectId: "toulang-clinic-ae239",
+  storageBucket: "toulang-clinic-ae239.firebasestorage.app",
+  messagingSenderId: "946925200427",
+  appId: "1:946925200427:web:1b966c4d708f5f01b8766e"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const messaging = getMessaging(app);
+
+// Global variables
+window.phoneVerified = false;
+let confirmationResult = null;
+let otpCountdown = null;
+
+// RecaptchaVerifier setup
+let recaptchaVerifier = new RecaptchaVerifier('sendOtpBtn', {
+  size: 'invisible',
+  callback: (token) => {
+    console.log('reCAPTCHA verified:', token);
+  },
+  'expired-callback': () => {
+    console.log('reCAPTCHA expired');
+  }
+}, auth);
+
+// Helper functions
+function showOtpMsg(text, isError) {
+  const el = document.getElementById('otpMsg');
+  el.style.color = isError ? '#c0392b' : 'var(--primary)';
+  el.textContent = text;
+  el.style.display = 'block';
+}
+
+function startResendTimer(seconds) {
+  const timerEl = document.getElementById('otpTimer');
+  const sendBtn = document.getElementById('sendOtpBtn');
+  clearInterval(otpCountdown);
+  let remaining = seconds;
+  sendBtn.disabled = true;
+  timerEl.style.display = 'block';
+  otpCountdown = setInterval(() => {
+    timerEl.textContent = `Resend OTP in ${remaining}s`;
+    remaining--;
+    if (remaining < 0) {
+      clearInterval(otpCountdown);
+      sendBtn.disabled = false;
+      timerEl.textContent = 'Didn\'t receive it? Tap Send OTP again.';
+    }
+  }, 1000);
+}
+
+// ── Send OTP via Firebase ────────────────────────────────────
+document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+  const phone = document.getElementById('fphone').value.trim();
+  const btn = document.getElementById('sendOtpBtn');
+
+  if (!phone) {
+    showOtpMsg('Please enter your phone number first.', true);
+    document.getElementById('otpRow').style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+  try {
+    // Show OTP input row
+    document.getElementById('otpRow').style.display = 'block';
+
+    // Send OTP via Firebase
+    confirmationResult = await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
+    showOtpMsg(`✓ OTP sent to ${phone}`, false);
+    startResendTimer(60);
+  } catch (error) {
+    console.error('Firebase error:', error);
+
+    // Handle specific Firebase error codes
+    let errorMsg = 'Failed to send OTP. Please try again.';
+    if (error.code === 'auth/invalid-phone-number') {
+      errorMsg = 'Invalid number. Use international format e.g. +919876543210';
+    } else if (error.code === 'auth/too-many-requests') {
+      errorMsg = 'Too many attempts. Please wait.';
+    }
+
+    showOtpMsg(errorMsg, true);
+    btn.disabled = false;
+
+    // Reset reCAPTCHA on error
+    if (recaptchaVerifier) {
+      recaptchaVerifier.clear();
+      recaptchaVerifier = new RecaptchaVerifier('sendOtpBtn', {
+        size: 'invisible',
+        callback: (token) => {
+          console.log('reCAPTCHA verified:', token);
+        },
+        'expired-callback': () => {
+          console.log('reCAPTCHA expired');
+        }
+      }, auth);
+    }
+  } finally {
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send OTP';
+  }
+});
+
+// ── Verify OTP via Firebase ──────────────────────────────────
+document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
+  const code = document.getElementById('fotpCode').value.trim();
+  const btn = document.getElementById('verifyOtpBtn');
+
+  if (!code || code.length < 6) {
+    showOtpMsg('Enter the 6-digit OTP code.', true);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+  try {
+    if (!confirmationResult) {
+      showOtpMsg('Please send OTP first.', true);
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
+      return;
+    }
+
+    // Verify OTP via Firebase
+    const result = await confirmationResult.confirm(code);
+    console.log('User verified:', result.user);
+
+    // Success
+    window.phoneVerified = true;
+    showOtpMsg('✓ Phone verified!', false);
+
+    // Lock the phone field and OTP controls
+    document.getElementById('fphone').readOnly = true;
+    document.getElementById('fotpCode').readOnly = true;
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Verified';
+    document.getElementById('sendOtpBtn').disabled = true;
+    clearInterval(otpCountdown);
+    document.getElementById('otpTimer').style.display = 'none';
+  } catch (error) {
+    console.error('OTP verification error:', error);
+    showOtpMsg('Incorrect OTP. Please try again.', true);
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
+  }
+});
+
+// ── Form submission check ────────────────────────────────────
+// Add a listener to check phoneVerified before booking form submit (runs before existing listener)
+document.getElementById('bookingForm').addEventListener('submit', (e) => {
+  if (!window.phoneVerified) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const msg = document.getElementById('formMsg');
+    msg.style.color = '#c0392b';
+    msg.textContent = 'Please verify your phone number with OTP before booking.';
+    msg.style.display = 'block';
+    document.getElementById('fphone').focus();
+  }
+}, true); // useCapture = true to run before other listeners
+
+// ──────────────────────────────────────────────────────────────
+// ── Firebase Cloud Messaging (FCM) for Admin Notifications ───
+// ──────────────────────────────────────────────────────────────
+
+// Show admin bar only if URL has ?admin=1
+// e.g. visit https://yoursite.vercel.app?admin=1 to see it
+const isAdmin = new URLSearchParams(window.location.search).has('admin');
+if (isAdmin) {
+  document.getElementById('adminNotifBar').style.display = 'block';
+}
+
+// Register service worker for background notifications
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/firebase-messaging-sw.js')
+    .catch(err => console.error('SW registration failed:', err));
+}
+
+// Handle foreground notifications (when admin has site open)
+onMessage(messaging, (payload) => {
+  const { title, body } = payload.notification || { title: 'New Notification', body: '' };
+  
+  // Show a toast notification on screen
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    background: var(--primary);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.2);
+    font-family: var(--font-body);
+    font-size: .88rem;
+    max-width: 320px;
+    line-height: 1.5;
+    animation: slideIn .3s ease;
+  `;
+  toast.innerHTML = `<strong>${title}</strong><br>${body}`;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 8000);
+});
+
+// Enable notifications button — only for admin
+document.getElementById('enableNotifBtn')?.addEventListener('click', async () => {
+  const statusEl = document.getElementById('notifStatus');
+  const btn = document.getElementById('enableNotifBtn');
+  btn.textContent = 'Enabling...';
+  
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      statusEl.textContent = '❌ Permission denied. Please allow in browser settings.';
+      btn.textContent = 'Enable Now';
+      return;
+    }
+
+    const token = await getToken(messaging, {
+      vapidKey: 'REPLACE_WITH_YOUR_VAPID_KEY',
+      serviceWorkerRegistration: await navigator.serviceWorker.ready
+    });
+
+    if (token) {
+      // Show the token so admin can copy it to Vercel env vars
+      statusEl.innerHTML = `
+        ✅ Enabled! Copy this token to Vercel as ADMIN_FCM_TOKEN:<br>
+        <textarea style="width:100%; margin-top:8px; font-size:.7rem; border-radius:8px; padding:8px; color:#222; border:1px solid var(--primary); resize:none; height:80px; font-family:monospace" readonly>${token}</textarea>
+      `;
+      btn.style.display = 'none';
+    }
+  } catch (err) {
+    console.error('FCM token error:', err);
+    statusEl.textContent = '❌ Failed to enable. Try again.';
+    btn.textContent = 'Enable Now';
+  }
+});
+</script>
+
+
