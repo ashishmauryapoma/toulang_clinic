@@ -1728,15 +1728,22 @@ let confirmationResult = null;
 let otpCountdown = null;
 
 // RecaptchaVerifier setup
-let recaptchaVerifier = new RecaptchaVerifier('sendOtpBtn', {
-  size: 'invisible',
-  callback: (token) => {
-    console.log('reCAPTCHA verified:', token);
-  },
-  'expired-callback': () => {
-    console.log('reCAPTCHA expired');
-  }
-}, auth);
+let recaptchaVerifier = null;
+
+try {
+  recaptchaVerifier = new RecaptchaVerifier('sendOtpBtn', {
+    size: 'invisible',
+    callback: (token) => {
+      console.log('reCAPTCHA verified:', token);
+    },
+    'expired-callback': () => {
+      console.log('reCAPTCHA expired');
+    }
+  }, auth);
+  console.log('RecaptchaVerifier initialized successfully');
+} catch (err) {
+  console.error('RecaptchaVerifier initialization error:', err);
+}
 
 // Helper functions
 function showOtpMsg(text, isError) {
@@ -1775,6 +1782,11 @@ document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     return;
   }
 
+  if (!recaptchaVerifier) {
+    showOtpMsg('reCAPTCHA not initialized. Please refresh the page.', true);
+    return;
+  }
+
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
@@ -1803,15 +1815,19 @@ document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     // Reset reCAPTCHA on error
     if (recaptchaVerifier) {
       recaptchaVerifier.clear();
-      recaptchaVerifier = new RecaptchaVerifier('sendOtpBtn', {
-        size: 'invisible',
-        callback: (token) => {
-          console.log('reCAPTCHA verified:', token);
-        },
-        'expired-callback': () => {
-          console.log('reCAPTCHA expired');
-        }
-      }, auth);
+      try {
+        recaptchaVerifier = new RecaptchaVerifier('sendOtpBtn', {
+          size: 'invisible',
+          callback: (token) => {
+            console.log('reCAPTCHA verified:', token);
+          },
+          'expired-callback': () => {
+            console.log('reCAPTCHA expired');
+          }
+        }, auth);
+      } catch (err) {
+        console.error('Failed to reinitialize RecaptchaVerifier:', err);
+      }
     }
   } finally {
     btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send OTP';
