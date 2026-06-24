@@ -1248,7 +1248,7 @@
                 <div class="form-group-custom">
                   <label class="form-label-custom" for="fphone">Phone Number *</label>
                   <div style="display:flex;gap:8px;align-items:stretch">
-                    <input type="tel" id="fphone" class="form-control-custom" placeholder="+91 98765 43210" required autocomplete="tel" style="flex:1;margin-bottom:0" />
+                    <input type="tel" id="fphone" class="form-control-custom" placeholder="+91 98765 43210" value="+91" required autocomplete="tel" style="flex:1;margin-bottom:0" />
                     <button type="button" id="sendOtpBtn" class="btn-primary-custom btn-sm-custom" style="white-space:nowrap;border-radius:12px;padding:10px 14px;font-size:.78rem">
                       <i class="fa-solid fa-paper-plane"></i> Send OTP
                     </button>
@@ -1722,6 +1722,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const messaging = getMessaging(app);
 
+// Make auth available globally for RecaptchaVerifier
+window.firebaseAuth = auth;
+
+console.log('Firebase initialized:', { app, auth, messaging });
+
 // Global variables
 window.phoneVerified = false;
 let confirmationResult = null;
@@ -1743,6 +1748,11 @@ function initializeRecaptcha() {
       return;
     }
     
+    if (!window.firebaseAuth) {
+      console.error('Firebase auth not initialized!');
+      return;
+    }
+    
     recaptchaVerifier = new RecaptchaVerifier(sendOtpBtn, {
       size: 'invisible',
       callback: (token) => {
@@ -1751,7 +1761,7 @@ function initializeRecaptcha() {
       'expired-callback': () => {
         console.log('reCAPTCHA expired');
       }
-    }, auth);
+    }, window.firebaseAuth);
     recaptchaInitialized = true;
     console.log('RecaptchaVerifier initialized successfully');
   } catch (err) {
@@ -1814,7 +1824,7 @@ document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     document.getElementById('otpRow').style.display = 'block';
 
     // Send OTP via Firebase
-    confirmationResult = await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
+    confirmationResult = await signInWithPhoneNumber(window.firebaseAuth, phone, recaptchaVerifier);
     showOtpMsg(`✓ OTP sent to ${phone}`, false);
     startResendTimer(60);
   } catch (error) {
