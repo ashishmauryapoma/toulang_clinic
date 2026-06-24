@@ -1,0 +1,10 @@
+{
+  "name": "toulang-clinic",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "google-spreadsheet": "^4.1.2",
+    "google-auth-library": "^9.6.3",
+    "twilio": "^5.0.0"
+  }
+}

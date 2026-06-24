@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Toulang Physiotherapy & Chiropractic Clinic — Premium rehabilitation and wellness care in a calm, expert environment." />
+  <meta name="keywords" content="physiotherapy, chiropractic, rehabilitation, wellness, sports injury, back pain" />
+  <meta property="og:title" content="Toulang — Destination for Relief & Wellness" />
+  <meta property="og:description" content="Premium physiotherapy and chiropractic clinic offering tailored, evidence-based care." />
+  <title>Toulang — Destination for Relief & Wellness</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── CSS Variables ─────────────────────────────── */
+    :root {
+      --primary:    #5D7158;
+      --primary-dk: #4a5a45;
+      --secondary:  #E8ECE6;
+      --bg:         #F7F7F5;
+      --text:       #222222;
+      --text-muted: #6b7280;
+      --accent:     #7A8F73;
+      --white:      #ffffff;
+      --card-shadow: 0 8px 40px rgba(93,113,88,.10);
+      --card-shadow-hover: 0 20px 60px rgba(93,113,88,.18);
+      --radius-pill: 999px;
+      --radius-lg:   24px;
+      --radius-md:   16px;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --transition:   0.35s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── Reset & Base ──────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Typography ────────────────────────────────── */
+    .display-serif {
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+    }
+    .eyebrow {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+    .eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 20px; height: 2px;
+      background: var(--primary);
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    /* ── Utility ───────────────────────────────────── */
+    .bg-secondary-soft { background: var(--secondary); }
+    .text-primary-custom { color: var(--primary); }
+    .section-pad { padding: 96px 0; }
+    .section-pad-sm { padding: 64px 0; }
+
+    /* ── Scroll animations ─────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .7s var(--transition), transform .7s var(--transition);
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up:nth-child(2) { transition-delay: .1s; }
+    .fade-up:nth-child(3) { transition-delay: .2s; }
+    .fade-up:nth-child(4) { transition-delay: .3s; }
+
+    /* ── Navbar ────────────────────────────────────── */
+    .navbar {
+      background: rgba(247,247,245,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(93,113,88,.08);
+      padding: 14px 0;
+      transition: box-shadow var(--transition);
+    }
+    .navbar.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,.06); }
+    .navbar-brand {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--primary) !important;
+      letter-spacing: -.02em;
+    }
+    .nav-link {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--text) !important;
+      padding: 6px 14px !important;
+      transition: color var(--transition);
+    }
+    .nav-link:hover { color: var(--primary) !important; }
+    .btn-nav {
+      background: var(--primary);
+      color: var(--white) !important;
+      border-radius: var(--radius-pill);
+      padding: 9px 24px !important;
+      font-size: .875rem;
+      font-weight: 500;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .btn-nav:hover { background: var(--primary-dk); transform: translateY(-1px); }
+
+    /* ── Buttons ───────────────────────────────────── */
+    .btn-primary-custom {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 13px 32px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-primary-custom:hover {
+      background: var(--primary-dk);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(93,113,88,.3);
+      color: var(--white);
+    }
+    .btn-outline-custom {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: var(--radius-pill);
+      padding: 11px 28px;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--transition);
+    }
+    .btn-outline-custom:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .btn-sm-custom {
+      padding: 9px 22px;
+      font-size: .8rem;
+    }
+
+    /* ── HERO ──────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      padding-top: 90px;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 50% 0%, rgba(93,113,88,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-welcome {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -.03em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .hero-headline span { color: var(--primary); }
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 380px;
+      margin-bottom: 32px;
+    }
+    /* Center image */
+    .hero-img-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .hero-img-pill {
+      width: min(280px, 80vw);
+      aspect-ratio: 3/4;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(93,113,88,.22);
+      position: relative;
+    }
+    .hero-img-pill img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .8s var(--transition);
+    }
+    .hero-img-pill:hover img { transform: scale(1.04); }
+    .hero-img-badge {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-pill);
+      padding: 10px 22px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--primary);
+      box-shadow: 0 4px 20px rgba(0,0,0,.1);
+    }
+    /* Stat cards */
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(93,113,88,.08);
+      margin-bottom: 16px;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .stat-card:hover { transform: translateX(-4px); box-shadow: var(--card-shadow-hover); }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .stat-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: .9rem;
+      margin-bottom: 10px;
+    }
+
+    /* ── PARTNERS ──────────────────────────────────── */
+    #partners {
+      background: var(--white);
+      padding: 36px 0;
+      border-top: 1px solid var(--secondary);
+      border-bottom: 1px solid var(--secondary);
+    }
+    .partners-eyebrow {
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .partner-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 20px;
+      opacity: .45;
+      transition: opacity var(--transition);
+    }
+    .partner-logo:hover { opacity: .8; }
+    .partner-logo i { font-size: 1.4rem; color: var(--text); }
+    .partner-logo span {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -.02em;
+    }
+    .partner-divider {
+      width: 1px; height: 36px;
+      background: var(--secondary);
+      flex-shrink: 0;
+    }
+
+    /* ── ABOUT ─────────────────────────────────────── */
+    #about { background: var(--bg); }
+    .about-images {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .about-img-pill {
+      flex: 1;
+      border-radius: 120px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(93,113,88,.15);
+      transition: transform var(--transition);
+    }
+    .about-img-pill:hover { transform: translateY(-8px); }
+    .about-img-pill:nth-child(2) { margin-top: 32px; }
+    .about-img-pill:nth-child(3) { margin-top: 16px; }
+    .about-img-pill img {
+      width: 100%;
+      aspect-ratio: 2/3;
+      object-fit: cover;
+    }
+    .vision-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      border-left: 4px solid var(--primary);
+      box-shadow: var(--card-shadow);
+      margin-bottom: 16px;
+    }
+    .vision-card h6 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .vision-card p {
+      font-size: .85rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* ── SERVICES ──────────────────────────────────── */
+    #services {
+      position: relative;
+      background: var(--text);
+      color: var(--white);
+      overflow: hidden;
+    }
+    .services-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1400&q=80') center/cover no-repeat;
+      opacity: .18;
+      pointer-events: none;
+    }
+    .services-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1a2218 0%, #2d3d28 100%);
+      opacity: .93;
+      pointer-events: none;
+    }
+    .services-content { position: relative; z-index: 1; }
+    .service-card {
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      height: 100%;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .service-card:hover {
+      background: rgba(255,255,255,.11);
+      transform: translateY(-8px);
+      box-shadow: 0 24px 60px rgba(0,0,0,.3);
+    }
+    .service-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(93,113,88,.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: var(--accent);
+      margin-bottom: 24px;
+      border: 1px solid rgba(93,113,88,.4);
+    }
+    .service-card h5 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .service-card p { font-size: .88rem; color: rgba(255,255,255,.65); margin-bottom: 24px; }
+    .btn-service {
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      border-radius: var(--radius-pill);
+      padding: 9px 24px;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition);
+    }
+    .btn-service:hover {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    /* ── WHY CHOOSE US ─────────────────────────────── */
+    #why { background: var(--secondary); }
+    .why-img-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .why-img-pill {
+      width: min(340px, 90vw);
+      aspect-ratio: 4/5;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      box-shadow: 0 24px 72px rgba(93,113,88,.2);
+    }
+    .why-img-pill img { width: 100%; height: 100%; object-fit: cover; }
+    .why-badge {
+      position: absolute;
+      top: 28px;
+      right: -20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      min-width: 110px;
+    }
+    .why-badge-num {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .why-badge-lbl {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .progress-bar-custom {
+      background: var(--secondary);
+      border-radius: var(--radius-pill);
+      height: 7px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: var(--radius-pill);
+      width: 0;
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+    }
+    .progress-item { margin-bottom: 22px; }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: .88rem;
+      font-weight: 600;
+    }
+    .progress-pct { color: var(--primary); font-weight: 700; }
+
+    /* ── SPECIALTIES ───────────────────────────────── */
+    #specialties { background: var(--bg); }
+    .specialty-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      border: 1px solid transparent;
+      transition: all var(--transition);
+      cursor: default;
+      height: 100%;
+    }
+    .specialty-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-6px);
+      box-shadow: var(--card-shadow-hover);
+    }
+    .specialty-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin: 0 auto 16px;
+      transition: background var(--transition);
+    }
+    .specialty-card:hover .specialty-icon { background: var(--primary); color: var(--white); }
+    .specialty-card h6 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .specialty-card p { font-size: .8rem; color: var(--text-muted); margin: 0; }
+
+    /* ── TESTIMONIALS ──────────────────────────────── */
+    #testimonials { background: var(--white); }
+    .testimonial-card {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      border: 1px solid var(--secondary);
+      position: relative;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .testimonial-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); }
+    .testimonial-quote {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      color: var(--primary);
+      opacity: .2;
+      line-height: 1;
+      position: absolute;
+      top: 16px;
+      left: 28px;
+    }
+    .testimonial-text {
+      font-size: .95rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 14px; }
+    .testimonial-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 2px solid var(--secondary);
+    }
+    .testimonial-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .testimonial-name { font-weight: 700; font-size: .9rem; margin-bottom: 2px; }
+    .testimonial-role { font-size: .75rem; color: var(--text-muted); }
+    .stars { color: #f5b900; font-size: .8rem; margin-bottom: 6px; }
+    .carousel-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--secondary);
+      border: none;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .carousel-dot.active { background: var(--primary); transform: scale(1.4); }
+
+    /* ── BOOKING ───────────────────────────────────── */
+    #booking {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dk) 100%);
+      color: var(--white);
+    }
+    .booking-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      box-shadow: 0 32px 80px rgba(0,0,0,.15);
+    }
+    .form-control-custom {
+      background: var(--bg);
+      border: 1.5px solid var(--secondary);
+      border-radius: var(--radius-md);
+      padding: 13px 16px;
+      font-size: .9rem;
+      color: var(--text);
+      width: 100%;
+      outline: none;
+      font-family: var(--font-body);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-control-custom:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(93,113,88,.12);
+    }
+    .form-label-custom {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .form-group-custom { margin-bottom: 20px; }
+
+    /* ── FAQ ───────────────────────────────────────── */
+    #faq { background: var(--bg); }
+    .faq-item {
+      border: 1px solid var(--secondary);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: box-shadow var(--transition);
+    }
+    .faq-item:hover { box-shadow: var(--card-shadow); }
+    .faq-question {
+      background: var(--white);
+      padding: 20px 24px;
+      font-weight: 600;
+      font-size: .95rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      user-select: none;
+      transition: color var(--transition);
+    }
+    .faq-question.open { color: var(--primary); }
+    .faq-icon {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: .75rem;
+      color: var(--primary);
+      transition: background var(--transition), transform var(--transition);
+    }
+    .faq-question.open .faq-icon {
+      background: var(--primary);
+      color: var(--white);
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      background: var(--white);
+      padding: 0 24px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease, padding .3s ease;
+    }
+    .faq-answer.open { max-height: 300px; padding: 0 24px 20px; }
+    .faq-answer p { font-size: .88rem; color: var(--text-muted); margin: 0; }
+
+    /* ── CONTACT ───────────────────────────────────── */
+    #contact { background: var(--secondary); }
+    .contact-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      height: 100%;
+      box-shadow: var(--card-shadow);
+    }
+    .contact-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+    .map-placeholder {
+      background: var(--secondary);
+      border-radius: var(--radius-lg);
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: .9rem;
+      font-weight: 500;
+      border: 2px dashed rgba(93,113,88,.25);
+    }
+    .map-placeholder i { font-size: 2.5rem; color: var(--primary); opacity: .5; }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: .85rem;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--secondary);
+    }
+    .hours-row:last-child { border: none; }
+    .hours-row .day { font-weight: 600; }
+    .hours-row .time { color: var(--primary); font-weight: 500; }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,.75);
+      padding: 64px 0 28px;
+    }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -.02em;
+      margin-bottom: 12px;
+    }
+    .footer-desc { font-size: .85rem; color: rgba(255,255,255,.5); margin-bottom: 24px; }
+    .footer-heading {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 18px;
+    }
+    .footer-link {
+      display: block;
+      font-size: .875rem;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 10px;
+      transition: color var(--transition);
+    }
+    .footer-link:hover { color: var(--accent); }
+    .social-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,.6);
+      font-size: .9rem;
+      margin-right: 8px;
+      transition: background var(--transition), color var(--transition);
+    }
+    .social-btn:hover { background: var(--primary); color: var(--white); }
+    .footer-divider {
+      border-top: 1px solid rgba(255,255,255,.08);
+      margin: 40px 0 24px;
+    }
+    .footer-copy { font-size: .78rem; color: rgba(255,255,255,.35); }
+
+    /* ── Responsive images via placeholder ────────── */
+    .img-placeholder {
+      background: linear-gradient(135deg, var(--secondary) 0%, #d4ddd1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 2rem;
+    }
+
+    /* ── Scroll-to-top ─────────────────────────────── */
+    #scrollTop {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      box-shadow: 0 8px 24px rgba(93,113,88,.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition), transform var(--transition);
+      z-index: 999;
+    }
+    #scrollTop.show { opacity: 1; pointer-events: all; }
+    #scrollTop:hover { transform: translateY(-3px); }
+
+    /* ── Mobile tweaks ─────────────────────────────── */
+    @media (max-width: 991px) {
+      .hero-desc { max-width: 100%; }
+      #hero { padding-top: 100px; padding-bottom: 48px; }
+      .about-images { margin-top: 40px; }
+      .why-badge { right: -10px; }
+      .booking-card { padding: 28px 20px; }
+    }
+    @media (max-width: 767px) {
+      .section-pad { padding: 64px 0; }
+      .hero-headline { font-size: 2.4rem; }
+      .partner-logo { padding: 0 10px; }
+      .partner-logo span { font-size: .9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav" aria-label="Main navigation">
+  <div class="container">
+    <a class="navbar-brand" href="#hero">Toulang</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fa-solid fa-bars" style="color:var(--primary)"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#specialties">Specialties</a></li>
+        <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="nav-link btn-nav" href="#booking">Book Appointment</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────── -->
+<section id="hero">
+  <div class="container">
+    <div class="row align-items-center gy-5">
+
+      <!-- Left -->
+      <div class="col-lg-4 fade-up">
+        <p class="hero-welcome"><i class="fa-solid fa-circle-dot me-2" style="font-size:.5rem;vertical-align:middle"></i>Welcome to Toulang</p>
+        <h1 class="hero-headline">Destination<br>For <span>Relief</span><br>&amp; Wellness</h1>
+        <p class="hero-desc">Expert physiotherapy and chiropractic care designed around you — restoring movement, relieving pain, and renewing life.</p>
+        <a href="#booking" class="btn-primary-custom">
+          <i class="fa-regular fa-calendar-check"></i>
+          Make Appointment
+        </a>
+      </div>
+
+      <!-- Center image -->
+      <div class="col-lg-4 fade-up" style="transition-delay:.12s">
+        <div class="hero-img-wrap">
+          <div class="hero-img-pill">
+            <img
+              src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&q=80"
+              alt="Professional physiotherapist at Toulang clinic"
+              loading="eager"
+            />
+          </div>
+          <div class="hero-img-badge">
+            <i class="fa-solid fa-shield-heart" style="color:var(--primary)"></i>
+            Certified & Trusted
+          </div>
+        </div>
+      </div>
+
+      <!-- Right stats -->
+      <div class="col-lg-4 fade-up" style="transition-delay:.24s">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-user-doctor"></i></div>
+          <div class="stat-number counter" data-target="48">0</div>
+          <div class="stat-label">Professional Staff</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-award"></i></div>
+          <div class="stat-number counter" data-target="24">0</div>
+          <div class="stat-label">Years of Experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-face-smile-beam"></i></div>
+          <div class="stat-number counter" data-target="3578">0</div>
+          <div class="stat-label">Satisfied Clients</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUSTED PARTNERS ───────────────────────────────── -->
+<section id="partners">
+  <div class="container">
+    <p class="partners-eyebrow">Our Trusted Partners</p>
+    <div class="d-flex align-items-center justify-content-center flex-wrap gap-0">
+      <div class="partner-logo"><i class="fa-solid fa-cross"></i><span>MedLife</span></div>
+      <div class="partner-divider d-none d-sm-block"></div>
+      <div class="partner-logo"><i class="fa-solid fa-heartbeat"></i><span>VitalCare</span></div>
+      <div class="partner-divider d-none d-sm-block"></div>
+      <div class="partner-logo"><i class="fa-solid fa-stethoscope"></i><span>HealthAxis</span></div>
+      <div class="partner-divider d-none d-sm-block"></div>
+      <div class="partner-logo"><i class="fa-solid fa-pills"></i><span>PharmaCo</span></div>
+      <div class="partner-divider d-none d-md-block"></div>
+      <div class="partner-logo d-none d-md-flex"><i class="fa-solid fa-hospital"></i><span>CarePoint</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ──────────────────────────────────────────── -->
+<section id="about" class="section-pad">
+  <div class="container">
+    <div class="row align-items-center gy-5">
+      <!-- Left text -->
+      <div class="col-lg-6 fade-up">
+        <p class="eyebrow mb-3">About Us</p>
+        <h2 class="display-serif mb-4" style="font-size:clamp(1.9rem,3.5vw,3rem)">
+          We Are The Best<br>Physiotherapy Clinic<br>In Town
+        </h2>
+        <p class="text-muted mb-4" style="font-size:.95rem;line-height:1.8">
+          At Toulang, we combine evidence-based rehabilitation with a calm, empathetic approach. Every treatment plan is built around you — your body, your goals, and your timeline for recovery.
+        </p>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="vision-card fade-up">
+              <h6><i class="fa-solid fa-eye me-2" style="color:var(--primary);font-size:.9rem"></i>Vision</h6>
+              <p>To be the most trusted destination for complete musculoskeletal health and wellbeing in Southeast Asia.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="vision-card fade-up" style="border-color:var(--accent)">
+              <h6><i class="fa-solid fa-bullseye me-2" style="color:var(--accent);font-size:.9rem"></i>Mission</h6>
+              <p>Delivering personalised, compassionate care that restores function and enhances quality of life for every patient.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Right images -->
+      <div class="col-lg-6 fade-up" style="transition-delay:.15s">
+        <div class="about-images">
+          <div class="about-img-pill">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80" alt="Physiotherapy spine model" loading="lazy" />
+          </div>
+          <div class="about-img-pill">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&q=80" alt="Physiotherapist treating a patient" loading="lazy" />
+          </div>
+          <div class="about-img-pill">
+            <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&q=80" alt="Massage and chiropractic treatment" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ───────────────────────────────────────── -->
+<section id="services" class="section-pad">
+  <div class="services-bg"></div>
+  <div class="services-overlay"></div>
+  <div class="services-content">
+    <div class="container">
+      <div class="text-center mb-5 fade-up">
+        <p class="eyebrow mb-3" style="color:var(--accent)">Our Services</p>
+        <h2 class="display-serif text-white" style="font-size:clamp(2rem,4vw,3.2rem)">
+          We Provide The Best Services
+        </h2>
+      </div>
+      <div class="row g-4">
+        <!-- Service 1 -->
+        <div class="col-lg-4 fade-up">
+          <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-person-running"></i></div>
+            <h5>Injury Rehabilitation</h5>
+            <p>Personalised rehabilitation programs aimed at restoring function and reducing pain following sports injuries and accidents.</p>
+            <button class="btn-service">Learn More <i class="fa-solid fa-arrow-right-long"></i></button>
+          </div>
+        </div>
+        <!-- Service 2 -->
+        <div class="col-lg-4 fade-up" style="transition-delay:.1s">
+          <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-brain"></i></div>
+            <h5>Neurological Rehabilitation</h5>
+            <p>Rehabilitation interventions targeting individuals with neurological conditions such as stroke, Parkinson's, and multiple sclerosis.</p>
+            <button class="btn-service">Learn More <i class="fa-solid fa-arrow-right-long"></i></button>
+          </div>
+        </div>
+        <!-- Service 3 -->
+        <div class="col-lg-4 fade-up" style="transition-delay:.2s">
+          <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-bone"></i></div>
+            <h5>Orthopedic Rehabilitation</h5>
+            <p>Targeted interventions to rehabilitate orthopedic injuries and surgeries, restoring mobility and strengthening the musculoskeletal system.</p>
+            <button class="btn-service">Learn More <i class="fa-solid fa-arrow-right-long"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY CHOOSE US ──────────────────────────────────── -->
+<section id="why" class="section-pad">
+  <div class="container">
+    <div class="row align-items-center gy-5">
+      <!-- Left image -->
+      <div class="col-lg-5 text-center fade-up">
+        <div class="why-img-wrap d-inline-block position-relative">
+          <div class="why-img-pill">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&q=80" alt="Confident physiotherapist" loading="lazy" />
+          </div>
+          <div class="why-badge">
+            <div class="why-badge-num counter" data-target="98">0</div>
+            <div class="why-badge-lbl" style="font-size:.65rem">% Success<br>Rate</div>
+          </div>
+        </div>
+      </div>
+      <!-- Right content -->
+      <div class="col-lg-7 fade-up" style="transition-delay:.15s;padding-left:clamp(16px,5vw,48px)">
+        <p class="eyebrow mb-3">Why Choose Us</p>
+        <h2 class="display-serif mb-3" style="font-size:clamp(1.7rem,3vw,2.7rem)">
+          Individually Tailored Treatment:<br>Your Path to Wellness
+        </h2>
+        <p class="text-muted mb-4" style="font-size:.92rem;line-height:1.8;max-width:520px">
+          We don't believe in one-size-fits-all solutions. Our multidisciplinary team carefully assesses your unique condition and designs a care pathway built for your specific recovery goals.
+        </p>
+        <!-- Progress bars -->
+        <div class="progress-item">
+          <div class="progress-label">
+            <span><i class="fa-solid fa-users me-2" style="color:var(--primary);font-size:.8rem"></i>Professional Team</span>
+            <span class="progress-pct">95%</span>
+          </div>
+          <div class="progress-bar-custom">
+            <div class="progress-fill" data-width="95"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span><i class="fa-solid fa-flask me-2" style="color:var(--primary);font-size:.8rem"></i>Innovative Techniques</span>
+            <span class="progress-pct">90%</span>
+          </div>
+          <div class="progress-bar-custom">
+            <div class="progress-fill" data-width="90"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span><i class="fa-solid fa-box-open me-2" style="color:var(--primary);font-size:.8rem"></i>Flexible Packages</span>
+            <span class="progress-pct">92%</span>
+          </div>
+          <div class="progress-bar-custom">
+            <div class="progress-fill" data-width="92"></div>
+          </div>
+        </div>
+        <a href="#booking" class="btn-primary-custom mt-3">
+          <i class="fa-solid fa-calendar-check"></i>
+          Book a Session
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SPECIALTIES ────────────────────────────────────── -->
+<section id="specialties" class="section-pad">
+  <div class="container">
+    <div class="text-center mb-5 fade-up">
+      <p class="eyebrow mb-3">Treatment Specialties</p>
+      <h2 class="display-serif" style="font-size:clamp(1.9rem,3.5vw,3rem)">Conditions We Treat</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-6 col-md-4 col-lg-3 fade-up">
+        <div class="specialty-card">
+          <div class="specialty-icon"><i class="fa-solid fa-person-dots-from-line"></i></div>
+          <h6>Back Pain</h6>
+          <p>Chronic & acute lumbar care</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 fade-up">
+        <div class="specialty-card">
+          <div class="specialty-icon"><i class="fa-solid fa-head-side-virus"></i></div>
+          <h6>Neck Pain</h6>
+          <p>Cervical strain & stiffness</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 fade-up">
+        <div class="specialty-card">
+          <div class="specialty-icon"><i class="fa-solid fa-person-running"></i></div>
+          <h6>Sports Injury</h6>
+          <p>Return-to-sport protocols</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 fade-up">
+        <div class="specialty-card">
+          <div class="specialty-icon"><i class="fa-solid fa-joint"></i></div>
+          <h6>Arthritis</h6>
+          <p>Joint mobility & pain relief</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 fade-up">
+        <div class="specialty-card">
+          <div class="specialty-icon"><i class="fa-solid fa-nerve-conduction" style="display:none"></i><i class="fa-solid fa-bolt"></i></div>
+          <h6>Sciatica</h6>
+          <p>Nerve pain & radiculopathy</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 fade-up">
+        <div class="specialty-card">
+          <div class="specialty-icon"><i class="fa-solid fa-snowflake"></i></div>
+          <h6>Frozen Shoulder</h6>
+          <p>Adhesive capsulitis release</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 fade-up">
+        <div class="specialty-card">
+          <div class="specialty-icon"><i class="fa-solid fa-bandage"></i></div>
+          <h6>Post-Surgery Recovery</h6>
+          <p>Safe graded rehabilitation</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3 fade-up">
+        <div class="specialty-card">
+          <div class="specialty-icon"><i class="fa-solid fa-circle-nodes"></i></div>
+          <h6>Joint Pain</h6>
+          <p>Hip, knee & shoulder care</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ───────────────────────────────────── -->
+<section id="testimonials" class="section-pad">
+  <div class="container">
+    <div class="text-center mb-5 fade-up">
+      <p class="eyebrow mb-3">Testimonials</p>
+      <h2 class="display-serif" style="font-size:clamp(1.9rem,3.5vw,3rem)">What Our Patients Say</h2>
+    </div>
+    <div class="row g-4" id="testimonialRow">
+      <!-- Testimonials injected by JS -->
+    </div>
+    <div class="d-flex justify-content-center gap-2 mt-4" id="dotContainer" aria-label="Testimonial navigation"></div>
+  </div>
+</section>
+
+<!-- ── BOOKING ────────────────────────────────────────── -->
+<section id="booking" class="section-pad">
+  <div class="container">
+    <div class="row gy-5 align-items-center">
+      <!-- Left -->
+      <div class="col-lg-5 fade-up">
+        <p class="eyebrow mb-3" style="color:rgba(255,255,255,.7)">Book an Appointment</p>
+        <h2 class="display-serif text-white mb-3" style="font-size:clamp(1.9rem,3.5vw,3rem)">
+          Start Your Journey<br>to Recovery Today
+        </h2>
+        <p style="color:rgba(255,255,255,.65);font-size:.92rem;max-width:380px;line-height:1.8">
+          Fill in the form and one of our patient coordinators will confirm your appointment within 24 hours.
+        </p>
+        <div class="d-flex flex-column gap-3 mt-4">
+          <div class="d-flex align-items-center gap-3" style="color:rgba(255,255,255,.8);font-size:.88rem">
+            <div style="width:36px;height:36px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-phone"></i></div>
+            +60 3-1234 5678
+          </div>
+          <div class="d-flex align-items-center gap-3" style="color:rgba(255,255,255,.8);font-size:.88rem">
+            <div style="width:36px;height:36px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-envelope"></i></div>
+            hello@toulang.clinic
+          </div>
+          <div class="d-flex align-items-center gap-3" style="color:rgba(255,255,255,.8);font-size:.88rem">
+            <div style="width:36px;height:36px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-clock"></i></div>
+            Mon – Sat: 8:00 am – 7:00 pm
+          </div>
+        </div>
+      </div>
+      <!-- Right form -->
+      <div class="col-lg-7 fade-up" style="transition-delay:.15s">
+        <div class="booking-card">
+          <h4 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:24px">Patient Appointment Form</h4>
+          <form id="bookingForm" novalidate>
+            <div class="row g-0">
+              <div class="col-md-6 pe-md-2">
+                <div class="form-group-custom">
+                  <label class="form-label-custom" for="fname">Full Name *</label>
+                  <input type="text" id="fname" class="form-control-custom" placeholder="Jane Doe" required autocomplete="name" />
+                </div>
+              </div>
+              <div class="col-md-6 ps-md-2">
+                <div class="form-group-custom">
+                  <label class="form-label-custom" for="fphone">Phone Number *</label>
+                  <div style="display:flex;gap:8px;align-items:stretch">
+                    <input type="tel" id="fphone" class="form-control-custom" placeholder="+91 98765 43210" required autocomplete="tel" style="flex:1;margin-bottom:0" />
+                    <button type="button" id="sendOtpBtn" class="btn-primary-custom btn-sm-custom" style="white-space:nowrap;border-radius:12px;padding:10px 14px;font-size:.78rem">
+                      <i class="fa-solid fa-paper-plane"></i> Send OTP
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- OTP input row (hidden until OTP sent) -->
+              <div class="col-12" id="otpRow" style="display:none">
+                <div class="form-group-custom">
+                  <label class="form-label-custom" for="fotpCode">Enter OTP *</label>
+                  <div style="display:flex;gap:8px;align-items:stretch">
+                    <input type="text" id="fotpCode" class="form-control-custom" placeholder="6-digit code" maxlength="6" inputmode="numeric" style="flex:1;letter-spacing:.25em;font-size:1.1rem;margin-bottom:0" />
+                    <button type="button" id="verifyOtpBtn" class="btn-primary-custom btn-sm-custom" style="white-space:nowrap;border-radius:12px;padding:10px 14px;font-size:.78rem">
+                      <i class="fa-solid fa-shield-halved"></i> Verify
+                    </button>
+                  </div>
+                  <p id="otpMsg" style="font-size:.78rem;margin-top:6px;display:none"></p>
+                  <p id="otpTimer" style="font-size:.75rem;color:var(--text-muted);margin-top:4px;display:none"></p>
+                </div>
+              </div>
+              <div class="col-md-6 pe-md-2">
+                <div class="form-group-custom">
+                  <label class="form-label-custom" for="femail">Email Address *</label>
+                  <input type="email" id="femail" class="form-control-custom" placeholder="jane@example.com" required autocomplete="email" />
+                </div>
+              </div>
+              <div class="col-md-6 ps-md-2">
+                <div class="form-group-custom">
+                  <label class="form-label-custom" for="fdate">Preferred Date *</label>
+                  <input type="date" id="fdate" class="form-control-custom" required />
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-custom">
+                  <label class="form-label-custom" for="ftreatment">Treatment Type</label>
+                  <select id="ftreatment" class="form-control-custom">
+                    <option value="">— Select a treatment —</option>
+                    <option>Injury Rehabilitation</option>
+                    <option>Neurological Rehabilitation</option>
+                    <option>Orthopedic Rehabilitation</option>
+                    <option>Back Pain Treatment</option>
+                    <option>Sports Injury Recovery</option>
+                    <option>Post-Surgery Rehabilitation</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group-custom">
+                  <label class="form-label-custom" for="fmessage">Message (optional)</label>
+                  <textarea id="fmessage" class="form-control-custom" rows="3" placeholder="Tell us about your condition or any specific concerns…"></textarea>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn-primary-custom w-100 justify-content-center" style="padding:16px">
+                  <i class="fa-solid fa-calendar-check"></i>
+                  Book Appointment
+                </button>
+                <p id="formMsg" style="font-size:.82rem;margin-top:10px;text-align:center;color:var(--primary);display:none"></p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ────────────────────────────────────────────── -->
+<section id="faq" class="section-pad">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center mb-5 fade-up">
+          <p class="eyebrow mb-3">FAQ</p>
+          <h2 class="display-serif" style="font-size:clamp(1.9rem,3vw,2.8rem)">Frequently Asked Questions</h2>
+        </div>
+        <div id="faqList" class="fade-up">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ────────────────────────────────────────── -->
+<section id="contact" class="section-pad">
+  <div class="container">
+    <div class="text-center mb-5 fade-up">
+      <p class="eyebrow mb-3">Contact</p>
+      <h2 class="display-serif" style="font-size:clamp(1.9rem,3.5vw,3rem)">Find Us</h2>
+    </div>
+    <div class="row g-4">
+      <!-- Info cards -->
+      <div class="col-md-6 col-lg-3 fade-up">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <h6 style="font-weight:700;margin-bottom:6px">Address</h6>
+          <p style="font-size:.85rem;color:var(--text-muted)">12 Wellness Avenue, Suite 3A,<br>Kuala Lumpur, 50480</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 fade-up" style="transition-delay:.08s">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+          <h6 style="font-weight:700;margin-bottom:6px">Phone</h6>
+          <p style="font-size:.85rem;color:var(--text-muted)">+60 3-1234 5678<br>+60 12-345 6789</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 fade-up" style="transition-delay:.16s">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+          <h6 style="font-weight:700;margin-bottom:6px">Email</h6>
+          <p style="font-size:.85rem;color:var(--text-muted)">hello@toulang.clinic<br>appointments@toulang.clinic</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 fade-up" style="transition-delay:.24s">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
+          <h6 style="font-weight:700;margin-bottom:10px">Opening Hours</h6>
+          <div class="hours-row"><span class="day">Mon – Fri</span><span class="time">8am – 7pm</span></div>
+          <div class="hours-row"><span class="day">Saturday</span><span class="time">9am – 5pm</span></div>
+          <div class="hours-row"><span class="day">Sunday</span><span class="time">Closed</span></div>
+        </div>
+      </div>
+      <!-- Map -->
+      <div class="col-12 fade-up mt-2">
+        <div class="map-placeholder">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>12 Wellness Avenue, Kuala Lumpur</span>
+          <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn-outline-custom btn-sm-custom">
+            <i class="fa-brands fa-google"></i>
+            Open in Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-4">
+        <div class="footer-brand">Toulang</div>
+        <p class="footer-desc">Your destination for expert physiotherapy, chiropractic care, and complete musculoskeletal wellness.</p>
+        <div>
+          <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="social-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6 class="footer-heading">Quick Links</h6>
+        <a class="footer-link" href="#about">About Us</a>
+        <a class="footer-link" href="#services">Services</a>
+        <a class="footer-link" href="#specialties">Specialties</a>
+        <a class="footer-link" href="#testimonials">Testimonials</a>
+        <a class="footer-link" href="#contact">Contact</a>
+      </div>
+      <div class="col-6 col-lg-3">
+        <h6 class="footer-heading">Services</h6>
+        <a class="footer-link" href="#services">Injury Rehabilitation</a>
+        <a class="footer-link" href="#services">Neurological Rehab</a>
+        <a class="footer-link" href="#services">Orthopedic Rehab</a>
+        <a class="footer-link" href="#specialties">Sports Injury</a>
+        <a class="footer-link" href="#specialties">Post-Surgery Care</a>
+      </div>
+      <div class="col-lg-3">
+        <h6 class="footer-heading">Contact</h6>
+        <p class="footer-link">12 Wellness Avenue,<br>Suite 3A, Kuala Lumpur</p>
+        <a class="footer-link" href="tel:+60312345678">+60 3-1234 5678</a>
+        <a class="footer-link" href="mailto:hello@toulang.clinic">hello@toulang.clinic</a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <p class="footer-copy mb-0">&copy; 2025 Toulang Physiotherapy &amp; Chiropractic. All rights reserved.</p>
+      <p class="footer-copy mb-0">
+        <a href="#" style="color:rgba(255,255,255,.35);text-decoration:none">Privacy Policy</a>
+        &nbsp;&bull;&nbsp;
+        <a href="#" style="color:rgba(255,255,255,.35);text-decoration:none">Terms of Service</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to top -->
+<button id="scrollTop" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ── Navbar scroll shadow ─────────────────────── */
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+}, { passive: true });
+
+document.getElementById('scrollTop').addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ── Scroll fade-up observer ──────────────────── */
+const fadeEls = document.querySelectorAll('.fade-up');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+fadeEls.forEach(el => observer.observe(el));
+
+/* ── Counter animation ────────────────────────── */
+function animateCounter(el, target, suffix='') {
+  let current = 0;
+  const step = Math.ceil(target / 60);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current.toLocaleString() + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 28);
+}
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      animateCounter(el, parseInt(el.dataset.target));
+      counterObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+
+/* ── Progress bars ────────────────────────────── */
+const progressObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.width = e.target.dataset.width + '%';
+      progressObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.progress-fill').forEach(el => progressObs.observe(el));
+
+/* ── Testimonials ─────────────────────────────── */
+const testimonials = [
+  {
+    name: 'Amira Hassan',
+    role: 'Sports Enthusiast',
+    text: 'After my ACL surgery, Toulang\'s rehabilitation team had me back on the football pitch in 5 months. Their personalised approach and constant encouragement made all the difference.',
+    stars: 5,
+    img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&q=80'
+  },
+  {
+    name: 'David Ng',
+    role: 'Office Professional',
+    text: 'Years of chronic back pain resolved in 8 sessions. I am amazed at how thorough the assessment was — they found the root cause straight away, not just the symptoms.',
+    stars: 5,
+    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80'
+  },
+  {
+    name: 'Priya Ramesh',
+    role: 'Marathon Runner',
+    text: 'The sciatica treatment here is outstanding. The team explained every step and empowered me with exercises to do at home. I feel stronger than before my injury.',
+    stars: 5,
+    img: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=200&q=80'
+  },
+  {
+    name: 'Tan Wei Liang',
+    role: 'Retired Teacher',
+    text: 'Frozen shoulder was making daily life unbearable. Within three months of treatment at Toulang I have full range of motion again. The staff are kind, professional, and genuinely caring.',
+    stars: 5,
+    img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80'
+  },
+  {
+    name: 'Fatimah Ismail',
+    role: 'Nurse',
+    text: 'As a healthcare worker myself I am picky about who I trust for treatment. Toulang exceeded every expectation — evidence-based, compassionate, and results-driven.',
+    stars: 5,
+    img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80'
+  },
+  {
+    name: 'Raj Sharma',
+    role: 'Cyclist',
+    text: 'Neurological physiotherapy after my stroke was daunting. The team at Toulang made every session feel achievable. Eighteen months on, I am back riding 50km every weekend.',
+    stars: 5,
+    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80'
+  }
+];
+
+let page = 0;
+const PER_PAGE = window.innerWidth < 768 ? 1 : window.innerWidth < 992 ? 2 : 3;
+
+function renderTestimonials() {
+  const row = document.getElementById('testimonialRow');
+  const dots = document.getElementById('dotContainer');
+  const total = Math.ceil(testimonials.length / PER_PAGE);
+  row.innerHTML = '';
+  const start = page * PER_PAGE;
+  testimonials.slice(start, start + PER_PAGE).forEach(t => {
+    const stars = Array(t.stars).fill('<i class="fa-solid fa-star"></i>').join('');
+    row.insertAdjacentHTML('beforeend', `
+      <div class="col-md-${12 / Math.min(PER_PAGE, testimonials.slice(start, start+PER_PAGE).length)} fade-up visible">
+        <div class="testimonial-card h-100">
+          <div class="testimonial-quote">"</div>
+          <div class="stars">${stars}</div>
+          <p class="testimonial-text">${t.text}</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar"><img src="${t.img}" alt="${t.name}" loading="lazy" /></div>
+            <div>
+              <div class="testimonial-name">${t.name}</div>
+              <div class="testimonial-role">${t.role}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+  });
+  dots.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'carousel-dot' + (i === page ? ' active' : '');
+    btn.setAttribute('aria-label', `Page ${i+1}`);
+    btn.addEventListener('click', () => { page = i; renderTestimonials(); });
+    dots.appendChild(btn);
+  }
+}
+renderTestimonials();
+setInterval(() => {
+  const total = Math.ceil(testimonials.length / PER_PAGE);
+  page = (page + 1) % total;
+  renderTestimonials();
+}, 6000);
+
+/* ── FAQ ──────────────────────────────────────── */
+const faqs = [
+  { q: 'Do I need a doctor\'s referral to book an appointment?', a: 'No referral is needed. You can book directly with our patient coordinators online, by phone, or in person at the clinic.' },
+  { q: 'How many sessions will I need?', a: 'This depends on your condition and goals. Most patients see significant improvement within 6–12 sessions. Your therapist will give you a clear timeline after your initial assessment.' },
+  { q: 'Is physiotherapy covered by insurance?', a: 'Many insurance plans cover physiotherapy. We recommend contacting your insurer before your first visit. We can provide detailed invoices and letters to support your claim.' },
+  { q: 'What should I wear to my appointment?', a: 'Comfortable, loose-fitting clothing is best. For lower body conditions, shorts are ideal. For upper body work, a loose t-shirt or tank top works well.' },
+  { q: 'What is the difference between physiotherapy and chiropractic care?', a: 'Physiotherapy focuses on movement, strength, and functional rehabilitation through exercise and manual therapy. Chiropractic care emphasises spinal alignment and joint manipulation. Many patients benefit from a combination of both, which we offer at Toulang.' },
+  { q: 'Can I exercise during my treatment?', a: 'In most cases, yes — modified exercise is actually encouraged. Your therapist will guide you on what activities are safe and beneficial during your recovery phase.' }
+];
+const faqList = document.getElementById('faqList');
+faqs.forEach((f, i) => {
+  faqList.insertAdjacentHTML('beforeend', `
+    <div class="faq-item">
+      <div class="faq-question" id="fq${i}" role="button" tabindex="0" aria-expanded="false" aria-controls="fa${i}">
+        ${f.q}
+        <div class="faq-icon"><i class="fa-solid fa-plus"></i></div>
+      </div>
+      <div class="faq-answer" id="fa${i}" role="region" aria-labelledby="fq${i}">
+        <p>${f.a}</p>
+      </div>
+    </div>
+  `);
+});
+document.querySelectorAll('.faq-question').forEach(q => {
+  const toggle = () => {
+    const open = q.classList.contains('open');
+    document.querySelectorAll('.faq-question').forEach(x => { x.classList.remove('open'); x.setAttribute('aria-expanded','false'); });
+    document.querySelectorAll('.faq-answer').forEach(x => x.classList.remove('open'));
+    if (!open) { q.classList.add('open'); q.setAttribute('aria-expanded','true'); q.nextElementSibling.classList.add('open'); }
+  };
+  q.addEventListener('click', toggle);
+  q.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+});
+
+/* ── Booking form + OTP ───────────────────────── */
+let phoneVerified = false;
+let otpCountdown  = null;
+
+function showOtpMsg(text, isError) {
+  const el = document.getElementById('otpMsg');
+  el.style.color   = isError ? '#c0392b' : 'var(--primary)';
+  el.textContent   = text;
+  el.style.display = 'block';
+}
+
+function startResendTimer(seconds) {
+  const timerEl = document.getElementById('otpTimer');
+  const sendBtn = document.getElementById('sendOtpBtn');
+  clearInterval(otpCountdown);
+  let remaining = seconds;
+  sendBtn.disabled = true;
+  timerEl.style.display = 'block';
+  otpCountdown = setInterval(() => {
+    timerEl.textContent = `Resend OTP in ${remaining}s`;
+    remaining--;
+    if (remaining < 0) {
+      clearInterval(otpCountdown);
+      sendBtn.disabled = false;
+      timerEl.textContent = 'Didn\'t receive it? Tap Send OTP again.';
+    }
+  }, 1000);
+}
+
+// ── Send OTP ──────────────────────────────────────────────────
+document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+  const phone = document.getElementById('fphone').value.trim();
+  const btn   = document.getElementById('sendOtpBtn');
+
+  if (!phone) {
+    showOtpMsg('Please enter your phone number first.', true);
+    document.getElementById('otpRow').style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+  try {
+    const res  = await fetch('/api/otp-send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone })
+    });
+    const data = await res.json();
+
+    document.getElementById('otpRow').style.display = 'block';
+
+    if (res.ok && data.success) {
+      showOtpMsg(`✓ OTP sent to ${phone}`, false);
+      startResendTimer(60);
+    } else {
+      showOtpMsg(data.error || 'Failed to send OTP. Check the number and try again.', true);
+      btn.disabled = false;
+    }
+  } catch {
+    showOtpMsg('Network error. Please try again.', true);
+    btn.disabled = false;
+  }
+
+  btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send OTP';
+});
+
+// ── Verify OTP ─────────────────────────────────────────────────
+document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
+  const phone = document.getElementById('fphone').value.trim();
+  const code  = document.getElementById('fotpCode').value.trim();
+  const btn   = document.getElementById('verifyOtpBtn');
+
+  if (!code || code.length < 4) { showOtpMsg('Enter the OTP code.', true); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+  try {
+    const res  = await fetch('/api/otp-verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, code })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      phoneVerified = true;
+      showOtpMsg('✓ Phone verified!', false);
+      // Lock the phone field and OTP controls
+      document.getElementById('fphone').readOnly = true;
+      document.getElementById('fotpCode').readOnly = true;
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Verified';
+      document.getElementById('sendOtpBtn').disabled = true;
+      clearInterval(otpCountdown);
+      document.getElementById('otpTimer').style.display = 'none';
+    } else {
+      showOtpMsg(data.error || 'Invalid OTP. Please try again.', true);
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
+    }
+  } catch {
+    showOtpMsg('Network error. Please try again.', true);
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
+  }
+});
+
+// ── Submit appointment ─────────────────────────────────────────
+document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const msg = document.getElementById('formMsg');
+  const btn = this.querySelector('button[type="submit"]');
+
+  const fname      = document.getElementById('fname').value.trim();
+  const femail     = document.getElementById('femail').value.trim();
+  const fphone     = document.getElementById('fphone').value.trim();
+  const fdate      = document.getElementById('fdate').value;
+  const ftreatment = document.getElementById('ftreatment').value;
+  const fmessage   = document.getElementById('fmessage').value.trim();
+
+  if (!fname || !femail || !fphone || !fdate) {
+    msg.style.color = '#c0392b';
+    msg.textContent = 'Please fill in all required fields.';
+    msg.style.display = 'block';
+    return;
+  }
+
+  if (!phoneVerified) {
+    msg.style.color = '#c0392b';
+    msg.textContent = 'Please verify your phone number with OTP before booking.';
+    msg.style.display = 'block';
+    document.getElementById('fphone').focus();
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting…';
+  msg.style.display = 'none';
+
+  try {
+    const res  = await fetch('/api/book', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fname, femail, fphone, fdate, ftreatment, fmessage })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      msg.style.color = 'var(--primary)';
+      msg.textContent = '✓ Thank you! Your appointment request has been received. We will confirm within 24 hours.';
+      this.reset();
+      phoneVerified = false;
+      document.getElementById('otpRow').style.display = 'none';
+      document.getElementById('otpMsg').style.display  = 'none';
+      document.getElementById('fphone').readOnly = false;
+    } else {
+      msg.style.color = '#c0392b';
+      msg.textContent = data.error || 'Something went wrong. Please try again or call us directly.';
+    }
+  } catch {
+    msg.style.color = '#c0392b';
+    msg.textContent = 'Network error. Please check your connection and try again.';
+  } finally {
+    msg.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-calendar-check"></i> Book Appointment';
+  }
+});
+
+/* ── Smooth anchor links (close mobile menu) ── */
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', () => {
+    const menu = document.getElementById('navMenu');
+    if (menu.classList.contains('show')) {
+      bootstrap.Collapse.getInstance(menu)?.hide();
+    }
+  });
+});
+</script>
+</body>
+</html>
