@@ -1727,22 +1727,36 @@ window.phoneVerified = false;
 let confirmationResult = null;
 let otpCountdown = null;
 
-// RecaptchaVerifier setup
+// RecaptchaVerifier setup — initialize only after DOM is ready
 let recaptchaVerifier = null;
 
-try {
-  recaptchaVerifier = new RecaptchaVerifier('sendOtpBtn', {
-    size: 'invisible',
-    callback: (token) => {
-      console.log('reCAPTCHA verified:', token);
-    },
-    'expired-callback': () => {
-      console.log('reCAPTCHA expired');
+// Initialize RecaptchaVerifier when the send OTP button is first clicked
+let recaptchaInitialized = false;
+
+function initializeRecaptcha() {
+  if (recaptchaInitialized) return;
+  
+  try {
+    const sendOtpBtn = document.getElementById('sendOtpBtn');
+    if (!sendOtpBtn) {
+      console.error('Send OTP button not found!');
+      return;
     }
-  }, auth);
-  console.log('RecaptchaVerifier initialized successfully');
-} catch (err) {
-  console.error('RecaptchaVerifier initialization error:', err);
+    
+    recaptchaVerifier = new RecaptchaVerifier(sendOtpBtn, {
+      size: 'invisible',
+      callback: (token) => {
+        console.log('reCAPTCHA verified:', token);
+      },
+      'expired-callback': () => {
+        console.log('reCAPTCHA expired');
+      }
+    }, auth);
+    recaptchaInitialized = true;
+    console.log('RecaptchaVerifier initialized successfully');
+  } catch (err) {
+    console.error('RecaptchaVerifier initialization error:', err);
+  }
 }
 
 // Helper functions
@@ -1773,6 +1787,11 @@ function startResendTimer(seconds) {
 
 // ── Send OTP via Firebase ────────────────────────────────────
 document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+  // Initialize RecaptchaVerifier on first click
+  if (!recaptchaInitialized) {
+    initializeRecaptcha();
+  }
+
   const phone = document.getElementById('fphone').value.trim();
   const btn = document.getElementById('sendOtpBtn');
 
@@ -1783,7 +1802,7 @@ document.getElementById('sendOtpBtn').addEventListener('click', async () => {
   }
 
   if (!recaptchaVerifier) {
-    showOtpMsg('reCAPTCHA not initialized. Please refresh the page.', true);
+    showOtpMsg('reCAPTCHA not initialized. Please try again.', true);
     return;
   }
 
@@ -1815,16 +1834,9 @@ document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     // Reset reCAPTCHA on error
     if (recaptchaVerifier) {
       recaptchaVerifier.clear();
+      recaptchaInitialized = false;
       try {
-        recaptchaVerifier = new RecaptchaVerifier('sendOtpBtn', {
-          size: 'invisible',
-          callback: (token) => {
-            console.log('reCAPTCHA verified:', token);
-          },
-          'expired-callback': () => {
-            console.log('reCAPTCHA expired');
-          }
-        }, auth);
+        initializeRecaptcha();
       } catch (err) {
         console.error('Failed to reinitialize RecaptchaVerifier:', err);
       }
