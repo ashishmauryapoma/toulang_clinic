@@ -884,9 +884,14 @@
     if (adminBar) {
       adminBar.style.display = 'block';
       console.log('Admin bar shown!');
+      // Visual confirmation
+      alert('✅ Admin mode activated! You should see the green bar below the navbar.');
     } else {
       console.log('Admin bar element not found!');
+      alert('❌ Admin bar HTML element not found in the page!');
     }
+  } else {
+    console.log('No admin parameter found in URL');
   }
 </script>
 
