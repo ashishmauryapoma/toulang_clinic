@@ -1677,7 +1677,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
       document.getElementById('sendOtpBtn').innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send OTP';
       document.getElementById('verifyOtpBtn').innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
       // Reset reCAPTCHA after successful booking
-      initRecaptcha();
+      resetRecaptcha();
     } else {
       msg.style.color = '#c0392b';
       msg.textContent = data.error || 'Something went wrong. Please try again or call us directly.';
@@ -1737,29 +1737,42 @@ window.phoneVerified = false;
 let confirmationResult = null;
 let otpCountdown = null;
 
-// RecaptchaVerifier setup — initialize immediately after auth is ready
+// RecaptchaVerifier setup
 let recaptchaVerifier = null;
+let recaptchaRendered = false;
 
 function initRecaptcha() {
+  if (recaptchaRendered) return; // prevent double render
   try {
-    if (recaptchaVerifier) {
-      recaptchaVerifier.clear();
-      recaptchaVerifier = null;
-    }
     recaptchaVerifier = new RecaptchaVerifier(auth, 'sendOtpBtn', {
       size: 'invisible',
       callback: () => {}
     });
+    recaptchaRendered = true;
+    console.log('reCAPTCHA ready');
   } catch (err) {
     console.error('reCAPTCHA init error:', err);
   }
 }
 
-// Initialize reCAPTCHA on page load
+// Call ONCE on load
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initRecaptcha);
 } else {
   initRecaptcha();
+}
+
+function resetRecaptcha() {
+  try {
+    if (recaptchaVerifier) {
+      recaptchaVerifier.clear();
+      recaptchaVerifier = null;
+    }
+    recaptchaRendered = false;
+    initRecaptcha();
+  } catch (err) {
+    console.error('reCAPTCHA reset error:', err);
+  }
 }
 
 // Helper functions
@@ -1847,10 +1860,7 @@ document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     btn.disabled = false;
 
     // Reset reCAPTCHA on error
-    if (recaptchaVerifier) {
-      console.log('Clearing and reinitializing reCAPTCHA after error');
-      initRecaptcha();
-    }
+    resetRecaptcha();
   } finally {
     btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send OTP';
   }
