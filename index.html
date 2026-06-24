@@ -876,8 +876,17 @@
 <!-- ── Check for admin flag immediately ────────────────────── -->
 <script>
   // Show admin bar if URL has ?admin=1
-  if (new URLSearchParams(window.location.search).has('admin')) {
-    document.getElementById('adminNotifBar').style.display = 'block';
+  const hasAdmin = new URLSearchParams(window.location.search).has('admin');
+  console.log('Admin check - URL params:', window.location.search, 'Has admin?', hasAdmin);
+  
+  if (hasAdmin) {
+    const adminBar = document.getElementById('adminNotifBar');
+    if (adminBar) {
+      adminBar.style.display = 'block';
+      console.log('Admin bar shown!');
+    } else {
+      console.log('Admin bar element not found!');
+    }
   }
 </script>
 
