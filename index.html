@@ -873,6 +873,14 @@
   <span id="notifStatus" style="margin-left:12px;font-size:.8rem"></span>
 </div>
 
+<!-- ── Check for admin flag immediately ────────────────────── -->
+<script>
+  // Show admin bar if URL has ?admin=1
+  if (new URLSearchParams(window.location.search).has('admin')) {
+    document.getElementById('adminNotifBar').style.display = 'block';
+  }
+</script>
+
 <!-- ── HERO ──────────────────────────────────────────── -->
 <section id="hero">
   <div class="container">
@@ -1857,13 +1865,6 @@ document.getElementById('bookingForm').addEventListener('submit', (e) => {
 // ──────────────────────────────────────────────────────────────
 // ── Firebase Cloud Messaging (FCM) for Admin Notifications ───
 // ──────────────────────────────────────────────────────────────
-
-// Show admin bar only if URL has ?admin=1
-// e.g. visit https://yoursite.vercel.app?admin=1 to see it
-const isAdmin = new URLSearchParams(window.location.search).has('admin');
-if (isAdmin) {
-  document.getElementById('adminNotifBar').style.display = 'block';
-}
 
 // Register service worker for background notifications
 if ('serviceWorker' in navigator) {
