@@ -1748,7 +1748,7 @@ function initializeRecaptcha() {
       return;
     }
     
-    if (!window.firebaseAuth) {
+    if (!auth) {
       console.error('Firebase auth not initialized!');
       return;
     }
@@ -1761,7 +1761,7 @@ function initializeRecaptcha() {
       'expired-callback': () => {
         console.log('reCAPTCHA expired');
       }
-    }, window.firebaseAuth);
+    }, auth);
     recaptchaInitialized = true;
     console.log('RecaptchaVerifier initialized successfully');
   } catch (err) {
@@ -1824,7 +1824,7 @@ document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     document.getElementById('otpRow').style.display = 'block';
 
     // Send OTP via Firebase
-    confirmationResult = await signInWithPhoneNumber(window.firebaseAuth, phone, recaptchaVerifier);
+    confirmationResult = await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
     showOtpMsg(`✓ OTP sent to ${phone}`, false);
     startResendTimer(60);
   } catch (error) {
