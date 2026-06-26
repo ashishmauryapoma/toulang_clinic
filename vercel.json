@@ -7,6 +7,7 @@
   ],
   "routes": [
     { "src": "/api/book", "dest": "/api/book.js" },
+    { "src": "/api/email-verify", "dest": "/api/email-verify.js" },
     { "src": "/firebase-messaging-sw.js", "dest": "/public/firebase-messaging-sw.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]

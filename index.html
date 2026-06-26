@@ -1247,32 +1247,31 @@
               <div class="col-md-6 ps-md-2">
                 <div class="form-group-custom">
                   <label class="form-label-custom" for="fphone">Phone Number *</label>
-                  <div style="display:flex;gap:8px;align-items:stretch">
-                    <input type="tel" id="fphone" class="form-control-custom" placeholder="+91 98765 43210" value="+91" required autocomplete="tel" style="flex:1;margin-bottom:0" />
-                    <button type="button" id="sendOtpBtn" class="btn-primary-custom btn-sm-custom" style="white-space:nowrap;border-radius:12px;padding:10px 14px;font-size:.78rem">
-                      <i class="fa-solid fa-paper-plane"></i> Send OTP
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <!-- OTP input row (hidden until OTP sent) -->
-              <div class="col-12" id="otpRow" style="display:none">
-                <div class="form-group-custom">
-                  <label class="form-label-custom" for="fotpCode">Enter OTP *</label>
-                  <div style="display:flex;gap:8px;align-items:stretch">
-                    <input type="text" id="fotpCode" class="form-control-custom" placeholder="6-digit code" maxlength="6" inputmode="numeric" style="flex:1;letter-spacing:.25em;font-size:1.1rem;margin-bottom:0" />
-                    <button type="button" id="verifyOtpBtn" class="btn-primary-custom btn-sm-custom" style="white-space:nowrap;border-radius:12px;padding:10px 14px;font-size:.78rem">
-                      <i class="fa-solid fa-shield-halved"></i> Verify
-                    </button>
-                  </div>
-                  <p id="otpMsg" style="font-size:.78rem;margin-top:6px;display:none"></p>
-                  <p id="otpTimer" style="font-size:.75rem;color:var(--text-muted);margin-top:4px;display:none"></p>
+                  <input type="tel" id="fphone" class="form-control-custom" placeholder="+91 98765 43210" required autocomplete="tel" />
                 </div>
               </div>
               <div class="col-md-6 pe-md-2">
                 <div class="form-group-custom">
                   <label class="form-label-custom" for="femail">Email Address *</label>
-                  <input type="email" id="femail" class="form-control-custom" placeholder="jane@example.com" required autocomplete="email" />
+                  <div style="display:flex;gap:8px;align-items:stretch">
+                    <input type="email" id="femail" class="form-control-custom" placeholder="jane@example.com" required autocomplete="email" style="flex:1;margin-bottom:0" />
+                    <button type="button" id="sendEmailCodeBtn" class="btn-primary-custom btn-sm-custom" style="white-space:nowrap;border-radius:12px;padding:10px 14px;font-size:.78rem">
+                      <i class="fa-solid fa-envelope"></i> Send Code
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Email verification row (hidden until code sent) -->
+              <div class="col-12" id="emailVerifyRow" style="display:none">
+                <div class="form-group-custom">
+                  <p id="emailVerifyMsg" style="font-size:.82rem;padding:10px 14px;border-radius:12px;background:rgba(93,113,88,.08);color:var(--primary);display:none;margin-bottom:8px"></p>
+                  <div style="display:flex;gap:8px;align-items:stretch">
+                    <input type="text" id="femailCode" class="form-control-custom" placeholder="Enter 6-digit code from email" maxlength="6" inputmode="numeric" style="flex:1;letter-spacing:.2em;font-size:1rem;margin-bottom:0" />
+                    <button type="button" id="verifyEmailBtn" class="btn-primary-custom btn-sm-custom" style="white-space:nowrap;border-radius:12px;padding:10px 14px;font-size:.78rem">
+                      <i class="fa-solid fa-shield-halved"></i> Verify
+                    </button>
+                  </div>
+                  <p id="emailResendTimer" style="font-size:.75rem;color:var(--text-muted);margin-top:6px;display:none"></p>
                 </div>
               </div>
               <div class="col-md-6 ps-md-2">
@@ -1644,14 +1643,6 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     return;
   }
 
-  if (!window.phoneVerified) {
-    msg.style.color = '#c0392b';
-    msg.textContent = 'Please verify your phone number with OTP before booking.';
-    msg.style.display = 'block';
-    document.getElementById('fphone').focus();
-    return;
-  }
-
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting…';
   msg.style.display = 'none';
@@ -1668,16 +1659,6 @@ document.getElementById('bookingForm').addEventListener('submit', async function
       msg.style.color = 'var(--primary)';
       msg.textContent = '✓ Thank you! Your appointment request has been received. We will confirm within 24 hours.';
       this.reset();
-      window.phoneVerified = false;
-      document.getElementById('otpRow').style.display = 'none';
-      document.getElementById('otpMsg').style.display  = 'none';
-      document.getElementById('fotpCode').readOnly = false;
-      document.getElementById('fphone').readOnly = false;
-      document.getElementById('sendOtpBtn').disabled = false;
-      document.getElementById('sendOtpBtn').innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send OTP';
-      document.getElementById('verifyOtpBtn').innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
-      // Reset reCAPTCHA after successful booking
-      resetRecaptcha();
     } else {
       msg.style.color = '#c0392b';
       msg.textContent = data.error || 'Something went wrong. Please try again or call us directly.';
@@ -1703,13 +1684,12 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 });
 </script>
 
-<!-- ── Firebase Phone Authentication + Cloud Messaging ──── -->
+<!-- ── Firebase Cloud Messaging ──── -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js';
 
-// Firebase configuration — replace placeholders with your Firebase project credentials
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyC1RHZ0r3zUEFI9al1oC-5vMRRCPvGkvqg",
   authDomain: "toulang-clinic-ae239.firebaseapp.com",
@@ -1721,14 +1701,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const messaging = getMessaging(app);
-
-// Make auth available globally for RecaptchaVerifier
-window.firebaseAuth = auth;
-
-// Set language code for reCAPTCHA and phone auth
-auth.languageCode = 'en';
 
 console.log('Firebase initialized:', { app, auth, messaging });
 
@@ -1736,193 +1709,7 @@ console.log('Firebase initialized:', { app, auth, messaging });
 window.phoneVerified = false;
 let confirmationResult = null;
 let otpCountdown = null;
-
-// RecaptchaVerifier setup
-let recaptchaVerifier = null;
-let recaptchaRendered = false;
-
-function initRecaptcha() {
-  if (recaptchaRendered) return; // prevent double render
-  try {
-    recaptchaVerifier = new RecaptchaVerifier(auth, 'sendOtpBtn', {
-      size: 'invisible',
-      callback: () => {}
-    });
-    recaptchaRendered = true;
-    console.log('reCAPTCHA ready');
-  } catch (err) {
-    console.error('reCAPTCHA init error:', err);
-  }
-}
-
-// Call ONCE on load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initRecaptcha);
-} else {
-  initRecaptcha();
-}
-
-function resetRecaptcha() {
-  try {
-    if (recaptchaVerifier) {
-      recaptchaVerifier.clear();
-      recaptchaVerifier = null;
-    }
-    recaptchaRendered = false;
-    initRecaptcha();
-  } catch (err) {
-    console.error('reCAPTCHA reset error:', err);
-  }
-}
-
-// Helper functions
-function showOtpMsg(text, isError) {
-  const el = document.getElementById('otpMsg');
-  el.style.color = isError ? '#c0392b' : 'var(--primary)';
-  el.textContent = text;
-  el.style.display = 'block';
-}
-
-function startResendTimer(seconds) {
-  const timerEl = document.getElementById('otpTimer');
-  const sendBtn = document.getElementById('sendOtpBtn');
-  clearInterval(otpCountdown);
-  let remaining = seconds;
-  sendBtn.disabled = true;
-  timerEl.style.display = 'block';
-  otpCountdown = setInterval(() => {
-    timerEl.textContent = `Resend OTP in ${remaining}s`;
-    remaining--;
-    if (remaining < 0) {
-      clearInterval(otpCountdown);
-      sendBtn.disabled = false;
-      timerEl.textContent = 'Didn\'t receive it? Tap Send OTP again.';
-    }
-  }, 1000);
-}
-
-// ── Send OTP via Firebase ────────────────────────────────────
-document.getElementById('sendOtpBtn').addEventListener('click', async () => {
-  const phone = document.getElementById('fphone').value.trim();
-  const btn = document.getElementById('sendOtpBtn');
-
-  console.log('Send OTP clicked. Phone:', phone, 'reCAPTCHA ready:', !!recaptchaVerifier);
-
-  if (!phone) {
-    showOtpMsg('Please enter your phone number first.', true);
-    document.getElementById('otpRow').style.display = 'block';
-    return;
-  }
-
-  if (!recaptchaVerifier) {
-    showOtpMsg('reCAPTCHA not initialized. Please try again.', true);
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-
-  try {
-    // Show OTP input row
-    document.getElementById('otpRow').style.display = 'block';
-
-    // Send OTP via Firebase
-    console.log('Calling signInWithPhoneNumber with:', { phone, auth: !!auth, recaptchaVerifier: !!recaptchaVerifier });
-    confirmationResult = await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
-    showOtpMsg(`✓ OTP sent to ${phone}`, false);
-    startResendTimer(60);
-  } catch (error) {
-    console.error('Firebase OTP error:', {
-      code: error.code,
-      message: error.message,
-      customData: error.customData,
-      errorInfo: error.errorInfo,
-      fullError: error
-    });
-
-    // Handle specific Firebase error codes
-    let errorMsg = 'Failed to send OTP. ';
-    if (error.code === 'auth/invalid-phone-number') {
-      errorMsg += 'Invalid phone format. Use: +919876543210';
-    } else if (error.code === 'auth/too-many-requests') {
-      errorMsg += 'Too many attempts. Wait and try again.';
-    } else if (error.code === 'auth/operation-not-allowed') {
-      errorMsg += 'Phone auth not enabled in Firebase Console.';
-    } else if (error.code === 'auth/invalid-verification-code') {
-      errorMsg += 'Invalid verification code.';
-    } else if (error.message) {
-      errorMsg += error.message;
-    } else {
-      errorMsg += 'Please try again.';
-    }
-
-    showOtpMsg(errorMsg, true);
-    btn.disabled = false;
-
-    // Reset reCAPTCHA on error
-    resetRecaptcha();
-  } finally {
-    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send OTP';
-  }
-});
-
-// ── Verify OTP via Firebase ──────────────────────────────────
-document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
-  const code = document.getElementById('fotpCode').value.trim();
-  const btn = document.getElementById('verifyOtpBtn');
-
-  if (!code || code.length < 6) {
-    showOtpMsg('Enter the 6-digit OTP code.', true);
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-
-  try {
-    if (!confirmationResult) {
-      showOtpMsg('Please send OTP first.', true);
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
-      return;
-    }
-
-    // Verify OTP via Firebase
-    const result = await confirmationResult.confirm(code);
-    console.log('User verified:', result.user);
-
-    // Success
-    window.phoneVerified = true;
-    showOtpMsg('✓ Phone verified!', false);
-
-    // Lock the phone field and OTP controls
-    document.getElementById('fphone').readOnly = true;
-    document.getElementById('fotpCode').readOnly = true;
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> Verified';
-    document.getElementById('sendOtpBtn').disabled = true;
-    clearInterval(otpCountdown);
-    document.getElementById('otpTimer').style.display = 'none';
-  } catch (error) {
-    console.error('OTP verification error:', error);
-    showOtpMsg('Incorrect OTP. Please try again.', true);
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
-  }
-});
-
-// ── Form submission check ────────────────────────────────────
-// Add a listener to check phoneVerified before booking form submit (runs before existing listener)
-document.getElementById('bookingForm').addEventListener('submit', (e) => {
-  if (!window.phoneVerified) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    const msg = document.getElementById('formMsg');
-    msg.style.color = '#c0392b';
-    msg.textContent = 'Please verify your phone number with OTP before booking.';
-    msg.style.display = 'block';
-    document.getElementById('fphone').focus();
-  }
-}, true); // useCapture = true to run before other listeners
+console.log('Firebase Cloud Messaging initialized');
 
 // ──────────────────────────────────────────────────────────────
 // ── Firebase Cloud Messaging (FCM) for Admin Notifications ───
@@ -1997,3 +1784,152 @@ document.getElementById('enableNotifBtn')?.addEventListener('click', async () =>
 </script>
 
 
+<!-- ── Email Verification ──── -->
+<script>
+// ── Email Verification ──────────────────────────────
+let emailVerified = false;
+let emailResendCountdown = null;
+
+function showEmailMsg(text, isError) {
+  const el = document.getElementById('emailVerifyMsg');
+  el.style.color = isError ? '#c0392b' : 'var(--primary)';
+  el.style.background = isError? 'rgba(192,57,43,.08)' : 'rgba(93,113,88,.08)';
+  el.textContent = text;
+  el.style.display = 'block';
+}
+
+function startEmailTimer(seconds) {
+  const timerEl = document.getElementById('emailResendTimer');
+  const sendBtn = document.getElementById('sendEmailCodeBtn');
+  clearInterval(emailResendCountdown);
+  let remaining = seconds;
+  sendBtn.disabled = true;
+  timerEl.style.display = 'block';
+  emailResendCountdown = setInterval(() => {
+    timerEl.textContent = `Resend code in ${remaining}s`;
+    remaining--;
+    if (remaining < 0) {
+      clearInterval(emailResendCountdown);
+      sendBtn.disabled = false;
+      timerEl.textContent = "Didn't receive it? Click Send Code again.";
+    }
+  }, 1000);
+}
+
+// ── Send email verification code ───────────────────────────
+document.getElementById('sendEmailCodeBtn').addEventListener('click', async () => {
+  const email = document.getElementById('femail').value.trim();
+  const btn   = document.getElementById('sendEmailCodeBtn');
+  
+  if (!email || !email.includes('@')) {
+    document.getElementById('emailVerifyRow').style.display = 'block';
+    showEmailMsg('Please enter a valid email address first.', true);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+  try {
+    const res  = await fetch('/api/email-verify', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ action: 'send', email })
+    });
+    const data = await res.json();
+    
+    document.getElementById('emailVerifyRow').style.display = 'block';
+    
+    if (res.ok && data.success) {
+      showEmailMsg(`✓ Verification code sent to ${email}. Check your inbox.`, false);
+      startEmailTimer(60);
+    } else {
+      showEmailMsg(data.error || 'Failed to send code. Please try again.', true);
+      btn.disabled = false;
+    }
+  } catch {
+    showEmailMsg('Network error. Please try again.', true);
+    btn.disabled = false;
+  }
+  
+  btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Send Code';
+});
+
+// ── Verify email code ───────────────────────────────────
+document.getElementById('verifyEmailBtn').addEventListener('click', async () => {
+  const email = document.getElementById('femail').value.trim();
+  const code  = document.getElementById('femailCode').value.trim();
+  const btn   = document.getElementById('verifyEmailBtn');
+
+  if (!code || code.length < 6) {
+    showEmailMsg('Enter the 6-digit code from your email.', true);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+  try {
+    const res  = await fetch('/api/email-verify', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ action: 'verify', email, code })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      emailVerified = true;
+      showEmailMsg('✓ Email verified! You can now book your appointment.', false);
+      document.getElementById('femail').readOnly    = true;
+      document.getElementById('femailCode').readOnly = true;
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Verified';
+      document.getElementById('sendEmailCodeBtn').disabled = true;
+      clearInterval(emailResendCountdown);
+      document.getElementById('emailResendTimer').style.display = 'none';
+    } else {
+      showEmailMsg(data.error || 'Incorrect code. Please try again.', true);
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
+    }
+  } catch {
+    showEmailMsg('Network error. Please try again.', true);
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Verify';
+  }
+});
+
+// ── Block form submit if email not verified ──────────────────
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  if (!emailVerified) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const msg = document.getElementById('formMsg');
+    msg.style.color   = '#c0392b';
+    msg.textContent   = 'Please verify your email address before booking.';
+    msg.style.display = 'block';
+    document.getElementById('femail').focus();
+  }
+}, true);
+
+// ── Reset after successful booking ────────────────────────────
+const formMsg  = document.getElementById('formMsg');
+const observer = new MutationObserver(() => {
+  if (formMsg.textContent.includes('Thank you')) {
+    emailVerified = false;
+    document.getElementById('emailVerifyRow').style.display  = 'none';
+    document.getElementById('emailVerifyMsg').style.display  = 'none';
+    document.getElementById('femail').readOnly               = false;
+    document.getElementById('femailCode').readOnly           = false;
+    document.getElementById('femailCode').value              = '';
+    document.getElementById('verifyEmailBtn').innerHTML      = '<i class="fa-solid fa-shield-halved"></i> Verify';
+    document.getElementById('sendEmailCodeBtn').disabled     = false;
+    document.getElementById('sendEmailCodeBtn').innerHTML    = '<i class="fa-solid fa-envelope"></i> Send Code';
+    clearInterval(emailResendCountdown);
+    document.getElementById('emailResendTimer').style.display = 'none';
+  }
+});
+observer.observe(formMsg, {childList: true, characterData: true, subtree: true});
+</script>
+
+</body>
+</html>
